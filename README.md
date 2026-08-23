@@ -4,7 +4,7 @@
 
 ---
 
-## 💡 Architecture Decisions & Tech Stack Rationale
+## Architecture Decisions & Tech Stack Rationale
 
 Why each component of the stack was chosen:
 
@@ -18,7 +18,7 @@ Why each component of the stack was chosen:
 
 ---
 
-## ⚖️ Engineering Constraints & Trade-offs
+##  Engineering Constraints & Trade-offs
 
 ### 1. Why Enforce a 25MB File Size Limit?
 * **Upstream Provider Constraint**: Groq's `/v1/audio/transcriptions` endpoint enforces a hard single-payload limit of **25 MB**.
@@ -32,7 +32,7 @@ On certain localized networks (such as university Wi-Fi or Windows workstations)
 
 ---
 
-## 🏛️ System Architecture Workflow
+##  System Architecture Workflow
 
 ```
 [ User Browser / React ]
@@ -57,7 +57,7 @@ On certain localized networks (such as university Wi-Fi or Windows workstations)
 
 ---
 
-## ✨ Features
+##  Features
 
 * **Sub-minute Transcription**: High-speed speech transcription using Groq Whisper Large-v3.
 * **Structured Insight Extraction**: Deterministic parsing of Executive Summaries, Key Decisions, and Action Items (with priorities and owners).
@@ -67,7 +67,7 @@ On certain localized networks (such as university Wi-Fi or Windows workstations)
 
 ---
 
-## 🛠️ Getting Started
+##  Getting Started
 
 ### 1. Environment Configuration
 Create `backend/.env`:
