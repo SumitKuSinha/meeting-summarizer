@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { UploadCloud, FileAudio, X, AlertCircle, ArrowRight, Music, Zap } from 'lucide-react';
+import { UploadCloud, FileAudio, X, AlertCircle, ArrowRight, Zap, FileText } from 'lucide-react';
 
 const MAX_FILE_SIZE = 25 * 1024 * 1024; // 25 MB
 const ALLOWED_EXTENSIONS = ['.mp3', '.wav', '.m4a'];
@@ -26,19 +26,17 @@ export default function AudioUploader({ onStartAnalysis }) {
 
     if (!file) return;
 
-    // Check size
     if (file.size > MAX_FILE_SIZE) {
       setValidationError('File size exceeds the 25MB limit. Please upload a smaller file.');
       return;
     }
 
-    // Check format
     const nameLower = file.name.toLowerCase();
     const isExtensionValid = ALLOWED_EXTENSIONS.some((ext) => nameLower.endsWith(ext));
     const isMimeValid = ALLOWED_MIME_TYPES.includes(file.type);
 
     if (!isExtensionValid && !isMimeValid) {
-      setValidationError('Unsupported format. Please upload an audio file (.mp3, .wav, or .m4a).');
+      setValidationError('Unsupported format. Only .mp3, .wav, and .m4a audio files are supported.');
       return;
     }
 
@@ -86,15 +84,15 @@ export default function AudioUploader({ onStartAnalysis }) {
   };
 
   const formatFileSize = (bytes) => {
-    if (bytes === 0) return '0 Bytes';
+    if (bytes === 0) return '0 B';
     const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const sizes = ['B', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto">
+    <div className="w-full max-w-xl mx-auto">
       {/* Upload Zone */}
       {!selectedFile ? (
         <div
@@ -103,10 +101,10 @@ export default function AudioUploader({ onStartAnalysis }) {
           onDragLeave={handleDrag}
           onDrop={handleDrop}
           onClick={() => fileInputRef.current?.click()}
-          className={`relative group cursor-pointer rounded-2xl border-2 border-dashed transition-all duration-200 p-8 sm:p-12 text-center flex flex-col items-center justify-center ${
+          className={`relative group cursor-pointer rounded-xl border border-dashed transition-all duration-200 p-8 sm:p-10 text-center flex flex-col items-center justify-center ${
             dragActive
-              ? 'border-brand-400 bg-brand-500/10 scale-[1.01]'
-              : 'border-slate-700 hover:border-brand-500/50 bg-slate-800/40 hover:bg-slate-800/70'
+              ? 'border-indigo-500 bg-indigo-500/5'
+              : 'border-zinc-800 hover:border-zinc-700 bg-zinc-900/40 hover:bg-zinc-900/70'
           }`}
         >
           <input
@@ -117,43 +115,43 @@ export default function AudioUploader({ onStartAnalysis }) {
             className="hidden"
           />
 
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-brand-600/30 to-indigo-600/30 border border-brand-500/30 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-brand-500/20 transition-transform">
-            <UploadCloud className="w-8 h-8 text-brand-400" />
+          <div className="w-12 h-12 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center mb-4 text-zinc-400 group-hover:text-zinc-200 group-hover:border-zinc-700 transition-colors shadow-sm">
+            <UploadCloud className="w-5 h-5" strokeWidth={1.5} />
           </div>
 
-          <h3 className="text-lg sm:text-xl font-semibold text-slate-100 mb-2">
-            Upload Meeting Recording
+          <h3 className="text-sm font-semibold text-zinc-100 mb-1.5">
+            Select or drop meeting recording
           </h3>
-          <p className="text-sm text-slate-400 max-w-md mb-4">
-            Drag and drop your audio file here, or{' '}
-            <span className="text-brand-400 font-medium hover:underline">browse your files</span>
+          <p className="text-xs text-zinc-400 mb-5 max-w-xs leading-relaxed">
+            Drag and drop an audio file here, or{' '}
+            <span className="text-indigo-400 hover:underline">browse files</span>
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-2 text-xs text-slate-400">
-            <span className="px-2.5 py-1 rounded-md bg-slate-800 border border-slate-700">
+          <div className="flex items-center gap-2 text-[11px] font-mono text-zinc-400">
+            <span className="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800">
               MP3, WAV, M4A
             </span>
-            <span className="px-2.5 py-1 rounded-md bg-slate-800 border border-slate-700">
-              Max 25 MB
+            <span className="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800">
+              Max 25MB
             </span>
           </div>
         </div>
       ) : (
         /* File Preview Card */
-        <div className="rounded-2xl border border-slate-700/80 bg-slate-800/60 backdrop-blur-sm p-6 sm:p-8 shadow-xl">
-          <div className="flex items-start justify-between mb-6">
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 rounded-xl bg-brand-500/20 border border-brand-500/30 flex items-center justify-center text-brand-400 flex-shrink-0">
-                <FileAudio className="w-6 h-6" />
+        <div className="rounded-xl border border-zinc-800 bg-zinc-900/70 backdrop-blur-md p-5 sm:p-6 shadow-xl animate-fadeIn">
+          <div className="flex items-start justify-between mb-5">
+            <div className="flex items-center space-x-3.5 min-w-0">
+              <div className="w-10 h-10 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-indigo-400 flex-shrink-0">
+                <FileAudio className="w-5 h-5" strokeWidth={1.5} />
               </div>
               <div className="min-w-0">
-                <h4 className="text-base sm:text-lg font-semibold text-slate-100 truncate max-w-xs sm:max-w-md">
+                <h4 className="text-sm font-semibold text-zinc-100 truncate max-w-xs sm:max-w-sm">
                   {selectedFile.name}
                 </h4>
-                <div className="flex items-center space-x-3 text-xs text-slate-400 mt-1">
+                <div className="flex items-center space-x-2 text-xs font-mono text-zinc-400 mt-1">
                   <span>{formatFileSize(selectedFile.size)}</span>
                   <span>•</span>
-                  <span className="uppercase font-medium text-brand-400">
+                  <span className="uppercase text-zinc-400">
                     {selectedFile.name.split('.').pop()}
                   </span>
                 </div>
@@ -162,36 +160,36 @@ export default function AudioUploader({ onStartAnalysis }) {
 
             <button
               onClick={handleRemoveFile}
-              className="p-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-700/50 transition-colors"
+              className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 transition-colors"
               title="Remove file"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" strokeWidth={1.5} />
             </button>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-center gap-2.5">
             <button
               onClick={handleRemoveFile}
-              className="w-full sm:w-auto px-4 py-3 rounded-xl border border-slate-700 hover:bg-slate-800 text-slate-300 hover:text-white transition-colors text-sm font-medium text-center"
+              className="w-full sm:w-auto px-4 py-2 rounded-lg border border-zinc-800 hover:border-zinc-700 bg-zinc-900/50 hover:bg-zinc-900 text-zinc-300 hover:text-zinc-100 transition-all text-xs font-medium text-center"
             >
-              Change File
+              Change file
             </button>
             <button
               onClick={handleSubmit}
-              className="w-full sm:flex-1 py-3 px-6 rounded-xl bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-semibold text-sm shadow-lg shadow-brand-500/25 flex items-center justify-center space-x-2 transition-all hover:scale-[1.01]"
+              className="w-full sm:flex-1 py-2 px-5 rounded-lg bg-zinc-100 hover:bg-white text-zinc-950 font-medium text-xs shadow-sm flex items-center justify-center space-x-1.5 transition-all duration-150 active:scale-[0.99]"
             >
-              <Zap className="w-4 h-4" />
-              <span>Analyze Meeting</span>
-              <ArrowRight className="w-4 h-4 ml-1" />
+              <Zap className="w-3.5 h-3.5 fill-current" strokeWidth={1.5} />
+              <span>Process Audio</span>
+              <ArrowRight className="w-3.5 h-3.5 ml-0.5" strokeWidth={1.5} />
             </button>
           </div>
         </div>
       )}
 
-      {/* Validation Error */}
+      {/* Validation Error Banner */}
       {validationError && (
-        <div className="mt-4 flex items-center space-x-2 text-sm text-red-400 bg-red-950/40 border border-red-800/60 rounded-xl p-3.5 animate-fadeIn">
-          <AlertCircle className="w-5 h-5 flex-shrink-0" />
+        <div className="mt-3 flex items-center space-x-2 text-xs text-rose-300 bg-rose-950/30 border border-rose-800/40 rounded-lg p-3 animate-fadeIn">
+          <AlertCircle className="w-4 h-4 flex-shrink-0 text-rose-400" strokeWidth={1.5} />
           <span>{validationError}</span>
         </div>
       )}
