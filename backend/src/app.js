@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import connectDB from './config/db.js';
 import meetingRoutes from './routes/meetingRoutes.js';
 
 // Load environment variables
@@ -45,9 +46,18 @@ app.get('/', (req, res) => {
   });
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT} (http://localhost:${PORT})`);
-});
+// Connect to MongoDB and start Express server
+const startServer = async () => {
+  try {
+    await connectDB();
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT} (http://localhost:${PORT})`);
+    });
+  } catch (error) {
+    console.error('Fatal error starting server:', error);
+  }
+};
+
+startServer();
 
 export default app;

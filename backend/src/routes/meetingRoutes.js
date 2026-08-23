@@ -2,7 +2,12 @@ import { Router } from 'express';
 import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { processMeetingAudio } from '../controllers/meetingController.js';
+import {
+  processMeetingAudio,
+  getAllMeetings,
+  getMeetingById,
+  deleteMeeting
+} from '../controllers/meetingController.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -78,7 +83,16 @@ const uploadSingleAudio = (req, res, next) => {
   });
 };
 
-// Route: POST /api/meetings/process
+// Route: POST /api/meetings/process - Upload and process audio file
 router.post('/process', uploadSingleAudio, processMeetingAudio);
+
+// Route: GET /api/meetings - Get all saved meetings
+router.get('/', getAllMeetings);
+
+// Route: GET /api/meetings/:id - Get single meeting details by ID
+router.get('/:id', getMeetingById);
+
+// Route: DELETE /api/meetings/:id - Delete a meeting by ID
+router.delete('/:id', deleteMeeting);
 
 export default router;
