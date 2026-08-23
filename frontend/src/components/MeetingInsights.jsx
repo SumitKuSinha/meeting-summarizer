@@ -29,17 +29,19 @@ export default function MeetingInsights({ data, onReset }) {
     key_decisions = [],
     action_items = [],
     transcript = '',
+    createdAt,
   } = data || {};
 
   const formattedDate = useMemo(() => {
-    return new Date().toLocaleDateString('en-US', {
+    const dateObj = createdAt ? new Date(createdAt) : new Date();
+    return dateObj.toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
       year: 'numeric',
       hour: '2-digit',
       minute: '2-digit'
     });
-  }, []);
+  }, [createdAt]);
 
   // Filter transcript text based on search keyword
   const highlightedTranscript = useMemo(() => {
@@ -153,7 +155,7 @@ export default function MeetingInsights({ data, onReset }) {
             className="flex-1 sm:flex-initial flex items-center justify-center space-x-2 px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-xs sm:text-sm font-medium shadow-lg shadow-brand-500/20 transition-all hover:scale-[1.01]"
           >
             <RotateCcw className="w-4 h-4" />
-            <span>Analyze Another</span>
+            <span>Upload New Recording</span>
           </button>
         </div>
       </div>
@@ -175,7 +177,7 @@ export default function MeetingInsights({ data, onReset }) {
           {title}
         </h2>
 
-        <p className="text-sm sm:text-base text-slate-300 leading-relaxed bg-slate-900/40 p-4 rounded-xl border border-slate-700/40">
+        <p className="text-sm sm:text-base text-slate-300 leading-relaxed bg-slate-900/40 p-4 rounded-xl border border-slate-700/40 whitespace-pre-line">
           {overview || 'No overview generated.'}
         </p>
       </div>

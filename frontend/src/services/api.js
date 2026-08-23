@@ -32,6 +32,38 @@ export async function processAudioMeeting(audioFile, onUploadProgress) {
   return response.data;
 }
 
+/**
+ * Fetches all saved meetings history.
+ * @returns {Promise<Object>} List of past meetings summary
+ */
+export async function getAllMeetings() {
+  const response = await apiClient.get('/meetings');
+  return response.data;
+}
+
+/**
+ * Fetches a single meeting's complete details by ID.
+ * @param {string} id - Meeting ID
+ * @returns {Promise<Object>} Full meeting details
+ */
+export async function getMeetingById(id) {
+  const response = await apiClient.get(`/meetings/${id}`);
+  return response.data;
+}
+
+/**
+ * Deletes a meeting by ID from the database.
+ * @param {string} id - Meeting ID
+ * @returns {Promise<Object>} Deletion result
+ */
+export async function deleteMeeting(id) {
+  const response = await apiClient.delete(`/meetings/${id}`);
+  return response.data;
+}
+
 export default {
   processAudioMeeting,
+  getAllMeetings,
+  getMeetingById,
+  deleteMeeting,
 };

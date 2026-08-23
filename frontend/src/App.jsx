@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import AudioUploader from './components/AudioUploader';
 import ProcessingState from './components/ProcessingState';
 import MeetingInsights from './components/MeetingInsights';
+import HistoryDrawer from './components/HistoryDrawer';
 import { processAudioMeeting } from './services/api';
 import { AlertTriangle, X, Sparkles } from 'lucide-react';
 
@@ -11,6 +12,7 @@ export default function App() {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [analysisResult, setAnalysisResult] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
   const handleStartAnalysis = async (file) => {
     setAppState('processing');
@@ -46,10 +48,22 @@ export default function App() {
     setUploadProgress(0);
   };
 
+  const handleSelectMeetingFromHistory = (meeting) => {
+    setAnalysisResult(meeting);
+    setAppState('completed');
+    setErrorMessage('');
+  };
+
+  const handleMeetingDeleted = (deletedMeetingId) => {
+    if (analysisResult && analysisResult._id === deletedMeetingId) {
+      handleReset();
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#0b0f19] text-slate-100 flex flex-col antialiased">
       {/* Top Navigation */}
-      <Navbar />
+      <Navbar onOpenHistory={() => setIsHistoryOpen(true)} />
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 flex flex-col items-center justify-center">
@@ -113,9 +127,18 @@ export default function App() {
         )}
       </main>
 
+      {/* Slide-over History Drawer */}
+      <HistoryDrawer
+        isOpen={isHistoryOpen}
+        onClose={() => setIsHistoryOpen(false)}
+        onSelectMeeting={handleSelectMeetingFromHistory}
+        currentMeetingId={analysisResult?._id}
+        onMeetingDeleted={handleMeetingDeleted}
+      />
+
       {/* Footer */}
       <footer className="border-t border-slate-800/80 py-6 text-center text-xs text-slate-500">
-        <p>© 2026 InsightSync — Powered by Groq Whisper & Google Gemini AI</p>
+        <p>© 2026 InsightSync — Powered by Groq Whisper, Google Gemini AI & MongoDB</p>
       </footer>
     </div>
   );
