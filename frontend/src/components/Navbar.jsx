@@ -1,54 +1,43 @@
 import React from 'react';
-import { Sparkles, Github, Mic, Cpu, History } from 'lucide-react';
+import { Github, History, Radio } from 'lucide-react';
 
 export default function Navbar({ onOpenHistory }) {
   return (
-    <header className="sticky top-0 z-40 backdrop-blur-md bg-slate-900/80 border-b border-slate-800">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        {/* Brand Logo & Name */}
+    <header className="sticky top-0 z-40 w-full border-b border-zinc-800/80 bg-zinc-950/80 backdrop-blur-md">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
+        {/* Brand Identity */}
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-brand-500/20 ring-1 ring-brand-400/30">
-            <Mic className="w-5 h-5 text-white" />
+          <div className="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-100 shadow-inner">
+            <Radio className="w-4 h-4 text-indigo-400" strokeWidth={1.75} />
           </div>
-          <div>
-            <div className="flex items-center space-x-2">
-              <span className="font-bold text-lg tracking-tight text-white">InsightSync</span>
-              <span className="text-xs px-2 py-0.5 rounded-full bg-brand-500/10 text-brand-400 border border-brand-500/20 font-medium">
-                AI Powered
-              </span>
-            </div>
-            <p className="text-xs text-slate-400 font-medium hidden sm:block">Meeting Intelligence & Summary Engine</p>
+          <div className="flex items-center space-x-2">
+            <span className="font-semibold text-sm tracking-tight text-zinc-100">
+              InsightSync
+            </span>
           </div>
         </div>
 
-        {/* Tech Badges, History Trigger & GitHub Link */}
+        {/* Actions */}
         <div className="flex items-center space-x-2 sm:space-x-3">
-          <div className="hidden lg:flex items-center space-x-2 text-xs text-slate-400 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/60">
-            <Cpu className="w-3.5 h-3.5 text-brand-400" />
-            <span>Whisper Large-v3</span>
-            <span className="text-slate-600">•</span>
-            <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-            <span>Gemini 2.5 Flash</span>
-          </div>
-
-          {/* History Button */}
+          {/* History Drawer Trigger */}
           <button
             onClick={onOpenHistory}
-            className="flex items-center space-x-2 px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700/90 text-slate-200 hover:text-white border border-slate-700/80 transition-all text-xs sm:text-sm font-medium shadow-sm hover:border-brand-500/40"
+            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-900 hover:border-zinc-700 text-zinc-300 hover:text-zinc-100 text-xs font-medium transition-all duration-150"
             title="Open Meeting History"
           >
-            <History className="w-4 h-4 text-brand-400" />
+            <History className="w-3.5 h-3.5 text-zinc-400" strokeWidth={1.5} />
             <span>History</span>
           </button>
 
+          {/* GitHub Repository */}
           <a
             href="https://github.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center space-x-2 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/60 transition-all text-xs font-medium"
-            title="View on GitHub"
+            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-900 hover:border-zinc-700 text-zinc-300 hover:text-zinc-100 text-xs font-medium transition-all duration-150"
+            title="Source Code"
           >
-            <Github className="w-4 h-4" />
+            <Github className="w-3.5 h-3.5 text-zinc-400" strokeWidth={1.5} />
             <span className="hidden sm:inline">GitHub</span>
           </a>
         </div>

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { UploadCloud, AudioLines, Sparkles, CheckCircle2, Loader2 } from 'lucide-react';
+import { UploadCloud, AudioLines, Sparkles, Check, Loader2 } from 'lucide-react';
 
 export default function ProcessingState({ uploadProgress = 0 }) {
-  // Simulate active stage transitions for smooth user feedback
   const [activeStage, setActiveStage] = useState(1);
 
   useEffect(() => {
@@ -20,46 +19,42 @@ export default function ProcessingState({ uploadProgress = 0 }) {
   const stages = [
     {
       id: 1,
-      title: 'Uploading Audio File',
-      description: uploadProgress < 100 ? `Sending payload to server (${uploadProgress}%)` : 'Upload complete',
+      title: 'Upload Audio',
+      description: uploadProgress < 100 ? `Streaming binary payload (${uploadProgress}%)` : 'Payload transferred successfully',
       icon: UploadCloud,
     },
     {
       id: 2,
-      title: 'Transcribing Audio',
-      description: 'Groq Whisper Large-v3 converting speech to text...',
+      title: 'Speech Transcription',
+      description: 'Groq Whisper Large-v3 running acoustic model inference...',
       icon: AudioLines,
     },
     {
       id: 3,
-      title: 'Extracting Meeting Intelligence',
-      description: 'Gemini 2.5 Flash analyzing decisions & action items...',
+      title: 'Insight Extraction',
+      description: 'Gemini 2.5 Flash parsing decisions and action items...',
       icon: Sparkles,
     },
   ];
 
   return (
-    <div className="w-full max-w-xl mx-auto py-8">
-      <div className="bg-slate-800/60 border border-slate-700/80 rounded-2xl p-8 backdrop-blur-md shadow-2xl">
-        {/* Animated Radar / Pulsing Wave */}
-        <div className="flex flex-col items-center justify-center mb-8">
-          <div className="relative flex items-center justify-center">
-            <div className="absolute w-24 h-24 rounded-full bg-brand-500/20 animate-ping opacity-75"></div>
-            <div className="absolute w-16 h-16 rounded-full bg-indigo-500/30 animate-pulse"></div>
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-brand-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-brand-500/30 z-10">
-              <Loader2 className="w-7 h-7 text-white animate-spin" />
-            </div>
+    <div className="w-full max-w-lg mx-auto py-6">
+      <div className="bg-zinc-900/70 border border-zinc-800/80 rounded-xl p-6 sm:p-7 backdrop-blur-md shadow-2xl">
+        {/* Header Indicator */}
+        <div className="flex flex-col items-center justify-center mb-6">
+          <div className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-indigo-400 mb-3 shadow-inner">
+            <Loader2 className="w-5 h-5 animate-spin" strokeWidth={1.75} />
           </div>
-          <h3 className="text-xl font-bold text-slate-100 mt-6 mb-1">
-            Analyzing Meeting Audio
+          <h3 className="text-sm font-semibold text-zinc-100 mb-1">
+            Processing Pipeline Active
           </h3>
-          <p className="text-xs sm:text-sm text-slate-400 text-center max-w-sm">
-            Please wait while our speech and intelligence pipeline processes your recording.
+          <p className="text-xs text-zinc-400 text-center max-w-xs">
+            Analyzing audio stream and extracting structured meeting metadata.
           </p>
         </div>
 
-        {/* Step Progress List */}
-        <div className="space-y-4">
+        {/* Steps */}
+        <div className="space-y-2.5">
           {stages.map((stage) => {
             const Icon = stage.icon;
             const isCompleted = activeStage > stage.id;
@@ -68,26 +63,26 @@ export default function ProcessingState({ uploadProgress = 0 }) {
             return (
               <div
                 key={stage.id}
-                className={`flex items-start space-x-4 p-3.5 rounded-xl border transition-all duration-300 ${
+                className={`flex items-start space-x-3.5 p-3 rounded-lg border transition-all duration-200 ${
                   isCurrent
-                    ? 'bg-brand-500/10 border-brand-500/30 shadow-sm'
+                    ? 'bg-zinc-900/90 border-zinc-700/90 shadow-sm'
                     : isCompleted
-                    ? 'bg-slate-800/80 border-slate-700/50'
-                    : 'bg-slate-900/40 border-slate-800/60 opacity-50'
+                    ? 'bg-zinc-900/40 border-zinc-800/60'
+                    : 'bg-zinc-950/30 border-zinc-900/60 opacity-40'
                 }`}
               >
                 <div className="flex-shrink-0 mt-0.5">
                   {isCompleted ? (
-                    <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-                      <CheckCircle2 className="w-5 h-5" />
+                    <div className="w-6 h-6 rounded-md bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                      <Check className="w-3.5 h-3.5" strokeWidth={2} />
                     </div>
                   ) : isCurrent ? (
-                    <div className="w-8 h-8 rounded-lg bg-brand-500/20 border border-brand-500/40 flex items-center justify-center text-brand-400 animate-pulse">
-                      <Icon className="w-4 h-4" />
+                    <div className="w-6 h-6 rounded-md bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 animate-pulse">
+                      <Icon className="w-3.5 h-3.5" strokeWidth={1.5} />
                     </div>
                   ) : (
-                    <div className="w-8 h-8 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-500">
-                      <Icon className="w-4 h-4" />
+                    <div className="w-6 h-6 rounded-md bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-600">
+                      <Icon className="w-3.5 h-3.5" strokeWidth={1.5} />
                     </div>
                   )}
                 </div>
@@ -95,23 +90,23 @@ export default function ProcessingState({ uploadProgress = 0 }) {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
                     <p
-                      className={`text-sm font-semibold ${
+                      className={`text-xs font-medium ${
                         isCurrent
-                          ? 'text-brand-300'
+                          ? 'text-zinc-100'
                           : isCompleted
-                          ? 'text-slate-200'
-                          : 'text-slate-500'
+                          ? 'text-zinc-300'
+                          : 'text-zinc-500'
                       }`}
                     >
                       {stage.title}
                     </p>
                     {isCurrent && (
-                      <span className="text-[10px] font-semibold uppercase tracking-wider text-brand-400 bg-brand-500/20 px-2 py-0.5 rounded-full">
-                        In Progress
+                      <span className="text-[10px] font-mono uppercase tracking-wider text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-1.5 py-0.5 rounded">
+                        Running
                       </span>
                     )}
                   </div>
-                  <p className="text-xs text-slate-400 mt-0.5">{stage.description}</p>
+                  <p className="text-[11px] text-zinc-400 mt-0.5">{stage.description}</p>
                 </div>
               </div>
             );
